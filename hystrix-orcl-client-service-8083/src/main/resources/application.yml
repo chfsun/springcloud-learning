@@ -1,0 +1,16 @@
+server:
+  port: 8401
+
+spring:
+  application:
+    name: hystrix-orcl-client-service-8083
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8001/eureka/
+      
+service-url:
+   dept-service: http://ribbon-orcl-server-service
