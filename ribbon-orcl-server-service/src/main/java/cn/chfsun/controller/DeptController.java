@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import cn.chfsun.pojo.Dept;
@@ -42,7 +43,7 @@ public class DeptController {
 
 	@GetMapping("/{deptNo}")
 	public Result<Dept> getDept(@PathVariable Integer deptNo) {
-		Dept dept = deptService.getDeptInfo(deptNo);
+		Dept dept = deptService.queryOne(deptNo);
 		LOGGER.info("当前端口为:" + port + "，根据deptNo获取部门信息，部门名称为：{}", dept.getDeptName());
 		return new Result<Dept>(dept);
 	}
@@ -54,9 +55,20 @@ public class DeptController {
 		return new Result<List<Dept>>(deptList);
 	}
 
+	@GetMapping("/queryListByDeptNos")
+	public Result<List<Dept>> queryListByDeptNos(@RequestParam List<Integer> deptNos) {
+		/*
+		 * List<Integer> lists = new ArrayList<Integer>(); lists.add(1); lists.add(3);
+		 * lists.add(6);
+		 */
+		List<Dept> deptList = deptService.queryListByDeptNos(deptNos);
+		LOGGER.info("获取部门列表总数为：{}", deptList.size());
+		return new Result<List<Dept>>(deptList);
+	}
+
 	@PostMapping("/update")
 	public Result update(@RequestBody Dept dept) {
-		int rs = deptService.update(dept);
+		int rs = deptService.edit(dept);
 		if (rs > 0) {
 			return new Result("操作成功", 200);
 		} else {
@@ -73,5 +85,4 @@ public class DeptController {
 			return new Result("操作失败", -200);
 		}
 	}
-
 }

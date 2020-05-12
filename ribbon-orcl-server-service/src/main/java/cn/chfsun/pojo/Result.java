@@ -1,6 +1,14 @@
 package cn.chfsun.pojo;
 
-public class Result<T> {
+import java.io.Serializable;
+
+public class Result<T> implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8490436590907382663L;
+
 	private T data;
 
 	private String message;

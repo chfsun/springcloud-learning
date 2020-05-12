@@ -16,7 +16,7 @@ import cn.chfsun.pojo.Dept;
 @Mapper
 public interface DeptMapper {
 	/**
-	 * 添加
+	 * insert
 	 * 
 	 * @param dept
 	 * @return
@@ -25,7 +25,7 @@ public interface DeptMapper {
 	public int insert(Dept dept);
 
 	/**
-	 * 删除
+	 * delete
 	 * 
 	 * @param deptNo
 	 * @return
@@ -33,28 +33,44 @@ public interface DeptMapper {
 	@Delete("delete from dept where deptNo=#{deptNo}")
 	public int del(@Param("deptNo") Integer deptNo);
 
-	@Update("update dept set deptName=#{deptName},localtion=#{localtion} where deptNo=#{deptNo}")
-	public int update(Dept dept);
+	/**
+	 * update
+	 * 
+	 * @param dept
+	 * @return
+	 */
+	@Update("update from dept set deptName=#{deptName},localtion=#{localtion} where deptNo=#{deptNo} ")
+	public int edit(Dept dept);
 
 	/**
-	 * 查询单个
+	 * queryOne
 	 * 
 	 * @param deptNo
 	 * @return
 	 */
-	@Select("SELECT * FROM dept WHERE deptNo=#{deptNo}")
-	@Results({ @Result(property = "deptNo", column = "deptNo") })
-	Dept getDeptInfo(@Param("deptNo") Integer deptNo);
+	@Select("select * from dept where deptNo=#{deptNo}")
+	public Dept queryOne(@Param("deptNo") Integer deptNo);
 
 	/**
-	 * 查询列表 映射实体
+	 * queryList
 	 * 
 	 * @return
 	 */
-	@Select("SELECT * FROM dept ")
-	@Results({ @Result(id = true, column = "deptNo", property = "deptNo"),
-			@Result(column = "deptName", property = "deptName"),
-			@Result(column = "localtion", property = "localtion") })
-	List<Dept> queryList();
+	@Select("select * from dept ")
+	public List<Dept> queryList();
 
+	// select
+	/*
+	 * @Select("<script>select * from dept where  deptNo  in" +
+	 * "<foreach item='item' index='index' collection='deptNos' open='(' close=')' separator=','>"
+	 * + "#{item.deptNo}</foreach></script>") public List<Dept>
+	 * queryListByDeptNos(@Param("deptNos") List<Dept> deptNos);
+	 */
+
+	@Select("<script>select deptNo,deptName,localtion from dept where  deptNo  in"
+			+ "<foreach item='item' index='index' collection='deptNos' open='(' close=')' separator=','>"
+			+ "#{item}</foreach></script>")
+	@Results(value = { @Result(column = "deptName", property = "deptName"),
+			@Result(column = "localtion", property = "localtion") })
+	public List<Dept> queryListByDeptNos(@Param("deptNos") List<Integer> deptNos);
 }

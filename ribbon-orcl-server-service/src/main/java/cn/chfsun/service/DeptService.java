@@ -15,22 +15,25 @@ public class DeptService {
 
 	public int insert(Dept dept) {
 		return deptMapper.insert(dept);
-	}
+	};
 
 	public int del(Integer deptNo) {
 		return deptMapper.del(deptNo);
-	}
+	};
 
-	public int update(Dept dept) {
-		return deptMapper.update(dept);
-	}
+	public int edit(Dept dept) {
+		return deptMapper.edit(dept);
+	};
 
-	public Dept getDeptInfo(Integer deptNo) {
-		return deptMapper.getDeptInfo(deptNo);
-	}
+	public Dept queryOne(Integer deptNo) {
+		return deptMapper.queryOne(deptNo);
+	};
 
 	public List<Dept> queryList() {
 		return deptMapper.queryList();
-	}
+	};
 
+	public List<Dept> queryListByDeptNos(List<Integer> deptNos) {
+		return deptMapper.queryListByDeptNos(deptNos);
+	}
 }
