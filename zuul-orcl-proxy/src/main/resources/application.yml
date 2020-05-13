@@ -1,0 +1,31 @@
+
+server:
+  port: 8801
+
+spring:
+  application:
+    name: zuul-orcl-proxy
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8001/eureka/
+
+# 配置路由规则
+zuul:
+  routes:
+    # 给服务配置路由
+    hystrix-orcl-client-service:
+      path: /hystrixClient/**
+    feign-service:
+      path: /feignService/**
+
+management:
+  endpoints:
+    web:
+      exposure:
+        #暴露hystrix监控端点
+        include: 'hystrix.stream,routes'
+        
